@@ -6,5 +6,6 @@ threads threads_count, threads_count
 
 preload_app!
 
-port        ENV['PORT']     || 3000
-environment ENV['RACK_ENV'] || 'development'
+rackup      DefaultRackup
+port        ENV.fetch('PORT') { 3000 }
+environment ENV.fetch('RACK_ENV') { 'development' }
