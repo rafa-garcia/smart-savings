@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-describe SmartSavings::API::Base do
+describe SmartSavings::API::Resources::Base do
   include Rack::Test::Methods
 
   def app
-    SmartSavings::API::Base
+    SmartSavings::API::Resources::Base
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }

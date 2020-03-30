@@ -1,14 +1,20 @@
 # frozen_string_literal: true
 
-describe SmartSavings::API::Root do
+describe SmartSavings::API::Service do
   include Rack::Test::Methods
 
   def app
-    SmartSavings::API::Root
+    SmartSavings::API::Service
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
-  let(:path_map) { { 'health_url' => '/api/v1/health' } }
+  let(:path_map) do
+    {
+      'health_url' => '/api/v1/health',
+      'users_url' => '/api/v1/users',
+      'transactions_url' => '/api/v1/transactions'
+    }
+  end
 
   context 'when the endpoint is invalid' do
     describe 'GET /api/invalid' do
