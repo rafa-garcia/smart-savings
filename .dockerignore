@@ -1,0 +1,10 @@
+.DS_Store
+.bin
+.bundle
+.bundleignore
+.cache
+.env*
+.git
+.gitignore
+.rspec
+.rubocop.yml
