@@ -1,0 +1,22 @@
+---
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    command:
+      - /bin/sh
+      - -c 
+      - |
+          rake db:setup
+          rake db:seed
+          rackup --port 3000 --host 0.0.0.0
+  postgres:
+    image: postgres:12.2-alpine
+    expose:
+      - '5432'
