@@ -8,7 +8,7 @@ Sequel.migration do
 
     create_table :transactions do
       primary_key :id
-      Integer :user_id, null: false
+      foreign_key :user_id, :users, null: false
       Float :amount, null: false
       transaction_type :type, null: false
       Time :created_at

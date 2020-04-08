@@ -15,6 +15,10 @@ module SmartSavings
       end
 
       helpers do
+        def logger
+          Service.logger
+        end
+
         # TODO: handle multiple versions of the same endpoint
         def build_path_map(endpoints)
           endpoints.each_with_object({}) do |endpoint, hash|

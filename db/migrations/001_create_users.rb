@@ -6,7 +6,7 @@ Sequel.migration do
       primary_key :id
       String :name, null: false
       Integer :age, null: false
-      Float :balance, default: 0
+      Float :balance, default: 0.0
       Integer :recommended_monthly_savings
       Time :created_at
     end

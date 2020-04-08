@@ -1,11 +1,11 @@
-id,name,age,balance
-1,Frederigo Milne,32,12616.69
-2,Brennen Garside,25,31365.9
-3,Dona Flips,56,8613.26
-4,Dallas Cammis,54,20340.3
-5,Angel Gabbott,26,21608.22
-6,Saree Tilston,26,29933.07
-7,Blanca Roggerone,65,45491.48
-8,Julee Widdall,60,16394.89
-9,Cristiano Nolot,30,23236.06
-10,Roby McAulay,41,1502.85
+name,age
+Frederigo Milne,32
+Brennen Garside,25
+Dona Flips,56
+Dallas Cammis,54
+Angel Gabbott,26
+Saree Tilston,26
+Blanca Roggerone,65
+Julee Widdall,60
+Cristiano Nolot,30
+Roby McAulay,41
