@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift(File.expand_path('../lib/smart-savings', __dir__))
-$LOAD_PATH.unshift(File.expand_path('../lib/savings-meter', __dir__))
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require File.expand_path('database', __dir__)
 require File.expand_path('boot', __dir__)
