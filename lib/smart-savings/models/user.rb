@@ -31,8 +31,6 @@ module SmartSavings
         'not yet implemented'
       end
 
-      private
-
       def debit_amount
         transactions_dataset.where(type: 'debit').sum(:amount).to_f
       end
@@ -40,6 +38,8 @@ module SmartSavings
       def credit_amount
         transactions_dataset.where(type: 'credit').sum(:amount).to_f
       end
+
+      private
 
       def validate
         super
