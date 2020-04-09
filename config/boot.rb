@@ -10,6 +10,8 @@ begin
   require 'api/service'
   require 'models/user'
   require 'models/transaction'
+  require 'queries/recurring_payments_from_user_id'
+  require 'services/savings_meter'
 rescue Sequel::DatabaseError => e
   raise e unless e.wrapped_exception.class == PG::UndefinedTable
 

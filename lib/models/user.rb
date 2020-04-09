@@ -9,7 +9,7 @@ module SmartSavings
         expose :recommended_monthly_savings, expose_nil: false
 
         def formatted_balance
-          object.balance.round(2)
+          object.balance.to_f.round(2)
         end
       end
 
@@ -18,25 +18,42 @@ module SmartSavings
       one_to_many :transactions
       add_association_dependencies transactions: :destroy
 
+      # Number of months between a user's first and last transaction
+      # (this should belong in an external query object, perhaps)
+      def account_age_months
+        transactions_dataset.select do
+          (Sequel.function(
+            :date_part, 'day', Sequel.lit('max(created_at) - min(created_at)')
+          ) / 30).as(:interval_months)
+        end.first.values[:interval_months]
+      end
+
+      # Summation of all positive transactions
+      def net_income
+        transactions_dataset.where(type: 'debit').sum(:amount)
+      end
+
+      # Difference of summations of credit and debit transaction amounts
+      def calculate_balance
+        transactions_dataset.sum(
+          Sequel.case({ { type: 'credit' } => Sequel.*(:amount, -1) }, :amount)
+        )
+      end
+
       def update_balance!
-        new_balance = debit_amount - credit_amount
-        db.transaction do # preventing deadlock conditions
-          lock!
-          update(balance: new_balance)
+        db.transaction do
+          lock! # ensure no other process updates the record at the same time
+          update(balance: calculate_balance)
         end
       end
 
       def update_savings_recommendation!
-        # update(recommended_monthly_savings: SavingsMeter.call(self))
-        'not yet implemented'
-      end
+        return if account_age_months.to_f < 1.0
 
-      def debit_amount
-        transactions_dataset.where(type: 'debit').sum(:amount).to_f
-      end
-
-      def credit_amount
-        transactions_dataset.where(type: 'credit').sum(:amount).to_f
+        db.transaction do
+          lock!
+          update(recommended_monthly_savings: Services::SavingsMeter.call(self))
+        end
       end
 
       private

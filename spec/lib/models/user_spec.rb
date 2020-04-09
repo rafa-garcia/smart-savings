@@ -95,6 +95,71 @@ describe SmartSavings::Models::User do
     end
   end
 
+  describe '#calculate_balance' do
+    before do
+      user.save
+      transactions_attributes.each do |t|
+        user.transactions << SmartSavings::Models::Transaction.create(t)
+      end
+    end
+
+    let(:user_attributes) { { name: 'name', age: 42 } }
+    let(:transactions_attributes) do
+      [
+        { user_id: user.id, amount: 44.0, type: 'debit' },
+        { user_id: user.id, amount: 2.0, type: 'credit' }
+      ]
+    end
+
+    it 'computes the balance' do
+      expect(user.calculate_balance).to be 42.0
+    end
+  end
+
+  describe '#net_income' do
+    before do
+      user.save
+      transactions_attributes.each do |t|
+        user.transactions << SmartSavings::Models::Transaction.create(t)
+      end
+    end
+
+    let(:user_attributes) { { name: 'name', age: 42 } }
+    let(:transactions_attributes) do
+      [
+        { user_id: user.id, amount: 42.0, type: 'debit' },
+        { user_id: user.id, amount: 42.0, type: 'credit' }
+      ]
+    end
+
+    it 'computes the net income' do
+      expect(user.net_income).to be 42.0
+    end
+  end
+
+  describe '#account_age_months' do
+    before do
+      user.save
+      transactions_attributes.each do |t|
+        user.transactions << SmartSavings::Models::Transaction.create(t)
+      end
+    end
+
+    let(:user_attributes) { { name: 'name', age: 42 } }
+    let(:transactions_attributes) do
+      [
+        { user_id: user.id, amount: 1.0, type: 'debit',
+          created_at: '31-10-2016' },
+        { user_id: user.id, amount: 1.0, type: 'credit',
+          created_at: '13-04-2020' }
+      ]
+    end
+
+    it 'calculates the span' do
+      expect(user.account_age_months).to be 42.0
+    end
+  end
+
   describe '#update_balance!' do
     before do
       user.save

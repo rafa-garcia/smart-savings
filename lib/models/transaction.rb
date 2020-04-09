@@ -14,16 +14,18 @@ module SmartSavings
 
       def after_create
         user.update_balance!
+        user.update_savings_recommendation!
         super
       end
 
       def after_destroy
         user.update_balance!
+        user.update_savings_recommendation!
         super
       end
 
       def amount_qualify?
-        return type == 'debit' || amount < user.balance if user
+        return type == 'debit' || amount <= user.balance if user
 
         true
       end
